@@ -1,22 +1,32 @@
 package com.example.kelascsqlite.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.kelascsqlite.MainActivity;
 import com.example.kelascsqlite.R;
+import com.example.kelascsqlite.TemanEdit;
+import com.example.kelascsqlite.database.DBController;
 import com.example.kelascsqlite.database.Teman;
 
 import java.util.ArrayList;
 
 public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHolder> {
     private ArrayList<Teman> listData;
+    Context context;
+    Bundle bundle = new Bundle();
 
     public TemanAdapter(ArrayList<Teman> listData) {
         this.listData = listData;
@@ -50,11 +60,59 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
     public class TemanViewHolder extends RecyclerView.ViewHolder {
         private CardView cardku;
         private TextView namaTxt, telponTxt;
+
         public TemanViewHolder(@NonNull View itemView) {
             super(itemView);
             cardku = itemView.findViewById(R.id.cardKu);
             namaTxt = itemView.findViewById(R.id.textNama);
             telponTxt = itemView.findViewById(R.id.textTelpon);
+            context = itemView.getContext();
+            DBController controller = new DBController(context);
+
+            cardku.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    PopupMenu pm = new PopupMenu(context, view);
+                    pm.inflate(R.menu.popup_menu);
+                    pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            String id, nm, tlp;
+                            id = listData.get(getAdapterPosition()).getId();
+                            nm = listData.get(getAdapterPosition()).getNama();
+                            tlp = listData.get(getAdapterPosition()).getTelpon();
+                            switch (item.getItemId()){
+                                case R.id.mnView:
+                                    bundle.putString("nama",nm);
+                                    bundle.putString("telepon",tlp);
+
+                                    Intent intentView = new Intent(context, TemanEdit.class);
+                                    intentView.putExtras(bundle);
+                                    context.startActivity(intentView);
+                                    break;
+                                case R.id.mnEdit:
+                                    bundle.putString("id",id);
+                                    bundle.putString("nama",nm);
+                                    bundle.putString("telepon",tlp);
+
+                                    Intent intentEdit = new Intent(context, TemanEdit.class);
+                                    intentEdit.putExtras(bundle);
+                                    context.startActivity(intentEdit);
+                                    break;
+                                case R.id.mnDelete:
+                                    controller.deleteData(id);
+                                    Intent intent = new Intent(context, MainActivity.class);
+                                    context.startActivity(intent);
+                                    break;
+                            }
+                            return false;
+                        }
+                    });
+                    pm.show();
+                }
+
+            });
         }
     }
 }

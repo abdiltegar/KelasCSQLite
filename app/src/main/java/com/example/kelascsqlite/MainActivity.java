@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.PopupMenu;
 
 import com.example.kelascsqlite.adapter.TemanAdapter;
 import com.example.kelascsqlite.database.DBController;
@@ -20,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TemanAdapter adapter;
     private ArrayList<Teman> temanArrayList;
+    private ListView list;
     DBController controller = new DBController(this);
     String id, nm, tlp;
     private FloatingActionButton fab;
