@@ -50,6 +50,12 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
         holder.namaTxt.setTextColor(Color.BLUE);
         holder.namaTxt.setTextSize(20);
         holder.telponTxt.setText(tlp);
+        holder.cardku.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View v) {
+                return true;
+            }
+        });
     }
 
     @Override
@@ -66,53 +72,53 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
             cardku = itemView.findViewById(R.id.cardKu);
             namaTxt = itemView.findViewById(R.id.textNama);
             telponTxt = itemView.findViewById(R.id.textTelpon);
-            context = itemView.getContext();
-            DBController controller = new DBController(context);
-
-            cardku.setOnClickListener(new View.OnClickListener(){
-
-                @Override
-                public void onClick(View view) {
-                    PopupMenu pm = new PopupMenu(context, view);
-                    pm.inflate(R.menu.popup_menu);
-                    pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            String id, nm, tlp;
-                            id = listData.get(getAdapterPosition()).getId();
-                            nm = listData.get(getAdapterPosition()).getNama();
-                            tlp = listData.get(getAdapterPosition()).getTelpon();
-                            switch (item.getItemId()){
-                                case R.id.mnView:
-                                    bundle.putString("nama",nm);
-                                    bundle.putString("telepon",tlp);
-
-                                    Intent intentView = new Intent(context, TemanEdit.class);
-                                    intentView.putExtras(bundle);
-                                    context.startActivity(intentView);
-                                    break;
-                                case R.id.mnEdit:
-                                    bundle.putString("id",id);
-                                    bundle.putString("nama",nm);
-                                    bundle.putString("telepon",tlp);
-
-                                    Intent intentEdit = new Intent(context, TemanEdit.class);
-                                    intentEdit.putExtras(bundle);
-                                    context.startActivity(intentEdit);
-                                    break;
-                                case R.id.mnDelete:
-                                    controller.deleteData(id);
-                                    Intent intent = new Intent(context, MainActivity.class);
-                                    context.startActivity(intent);
-                                    break;
-                            }
-                            return false;
-                        }
-                    });
-                    pm.show();
-                }
-
-            });
+//            context = itemView.getContext();
+//            DBController controller = new DBController(context);
+//
+//            cardku.setOnClickListener(new View.OnClickListener(){
+//
+//                @Override
+//                public void onClick(View view) {
+//                    PopupMenu pm = new PopupMenu(context, view);
+//                    pm.inflate(R.menu.popup_menu);
+//                    pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                        @Override
+//                        public boolean onMenuItemClick(MenuItem item) {
+//                            String id, nm, tlp;
+//                            id = listData.get(getAdapterPosition()).getId();
+//                            nm = listData.get(getAdapterPosition()).getNama();
+//                            tlp = listData.get(getAdapterPosition()).getTelpon();
+//                            switch (item.getItemId()){
+//                                case R.id.mnView:
+//                                    bundle.putString("nama",nm);
+//                                    bundle.putString("telepon",tlp);
+//
+//                                    Intent intentView = new Intent(context, TemanEdit.class);
+//                                    intentView.putExtras(bundle);
+//                                    context.startActivity(intentView);
+//                                    break;
+//                                case R.id.mnEdit:
+//                                    bundle.putString("id",id);
+//                                    bundle.putString("nama",nm);
+//                                    bundle.putString("telepon",tlp);
+//
+//                                    Intent intentEdit = new Intent(context, TemanEdit.class);
+//                                    intentEdit.putExtras(bundle);
+//                                    context.startActivity(intentEdit);
+//                                    break;
+//                                case R.id.mnDelete:
+//                                    controller.deleteData(id);
+//                                    Intent intent = new Intent(context, MainActivity.class);
+//                                    context.startActivity(intent);
+//                                    break;
+//                            }
+//                            return false;
+//                        }
+//                    });
+//                    pm.show();
+//                }
+//
+//            });
         }
     }
 }
