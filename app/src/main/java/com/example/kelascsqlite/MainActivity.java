@@ -35,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TemanAdapter adapter;
     private ArrayList<Teman> temanArrayList;
-    private ListView list;
+//    private ListView list;
     private FloatingActionButton fab;
 
-    DBController controller = new DBController(this);
-    String id, nm, tlp;
+//    DBController controller = new DBController(this);
+//    String id, nm, tlp;
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static String url_select = "http://192.168.100.8/umyTI/bacateman.php";
@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void BacaData(){
+        temanArrayList.clear();
 //        ArrayList<HashMap<String, String>> daftarTeman = controller.getAllTeman();
 //        temanArrayList = new ArrayList<Teman>();
 //
@@ -104,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                adapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
